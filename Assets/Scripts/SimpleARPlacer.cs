@@ -6,7 +6,7 @@ using UnityEngine;
 public class SimpleARPlacer : MonoBehaviour 
 {
 	[SerializeField]
-	private GameObject prefab;
+	private Transform root;
 	[SerializeField]
 	private Transform camera;
 	[SerializeField]
@@ -22,8 +22,7 @@ public class SimpleARPlacer : MonoBehaviour
     private void OnTracking ()
     {
 		Plane plane = new Plane (surfaceTracker.Ground.up, surfaceTracker.Ground.position);
-		Quaternion rotation = Quaternion.Euler (0f, camera.rotation.eulerAngles.y, 0f);
-		Vector3 origin = plane.ClosestPointOnPlane (camera.position) + (rotation * Vector3.forward) * forwardOffset;
-		Instantiate (prefab, origin, rotation);
+		root.rotation = Quaternion.Euler (0f, camera.rotation.eulerAngles.y, 0f);
+		root.position = plane.ClosestPointOnPlane (camera.position) + (root.rotation * Vector3.forward) * forwardOffset;
     }
 }
